@@ -34,3 +34,25 @@ Build the Windows release binary and copy it into `dist/`:
 ```
 
 The resulting executable is produced under `dist/ime-border.exe`.
+
+## Release flow
+
+Prepare a release locally with:
+
+```powershell
+.\tools\release.ps1 0.1.1
+```
+
+The helper script:
+
+- updates `Cargo.toml`
+- runs `cargo test --all-targets`
+- creates a version bump commit
+- creates the matching annotated tag
+
+It does not push automatically. After it finishes, push the branch and tag yourself:
+
+```powershell
+git push origin HEAD
+git push origin v0.1.1
+```

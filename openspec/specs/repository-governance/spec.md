@@ -8,13 +8,18 @@ Define the repository's canonical OpenSpec-first workflow, including change gati
 
 ### Requirement: OpenSpec is the canonical repository workflow
 
-The repository SHALL use OpenSpec as the canonical system for project context, durable governance rules, and active change planning.
+The repository SHALL use OpenSpec as the canonical system for project context, durable governance rules, active change planning, and repository-owned release helper tooling.
 
 #### Scenario: Fresh contributor looks for process entry
 
 - **WHEN** a contributor or agent needs the repository workflow entry point
 - **THEN** `openspec/project.md` provides repository-wide context
 - **AND** `openspec/specs/repository-governance/spec.md` defines the durable workflow rules
+
+#### Scenario: Maintainer prepares a release
+
+- **WHEN** a maintainer needs to bump the repository version and create a matching release tag
+- **THEN** the repository provides a maintained helper script for the local release preparation steps
 
 ### Requirement: Substantial work requires OpenSpec change context
 
