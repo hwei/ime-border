@@ -1,14 +1,14 @@
-# ime-control
+# ime-border
 
-`ime-control` is a Windows-first command-line tool that detects whether the active Microsoft Pinyin IME is currently in English mode and can project that state onto komorebi border colors.
+`ime-border` is a Windows-first command-line tool that detects whether the active Microsoft Pinyin IME is currently in English mode and can project that state onto komorebi border colors.
 
 ## Commands
 
 ```powershell
-.\ime-control.cmd
-.\ime-control.cmd once --verbose
-.\ime-control.cmd watch --interval 0.1
-.\ime-control.cmd border-watch --verbose
+.\ime-border.cmd
+.\ime-border.cmd once --verbose
+.\ime-border.cmd watch --interval 0.1
+.\ime-border.cmd border-watch --verbose
 ```
 
 Default `once` output is one of:
@@ -19,11 +19,10 @@ Default `once` output is one of:
 
 ## Portable build
 
-Install the build dependency and emit a single-file exe:
+Build the Windows release binary and copy it into `dist/`:
 
 ```powershell
-.\.conda\python.exe -m pip install -e .[build]
-.\.conda\python.exe .\tools\build_portable_exe.py
+.\tools\build-portable.ps1
 ```
 
-The resulting executable is produced under `dist/ime-control.exe`.
+The resulting executable is produced under `dist/ime-border.exe`.

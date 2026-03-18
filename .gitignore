@@ -12,3 +12,8 @@ dist/
 *.pyd
 *.egg-info/
 .coverage
+
+
+# Added by cargo
+
+/target

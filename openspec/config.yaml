@@ -3,8 +3,8 @@ profile: core
 delivery: both
 
 context: |
-  Repository: ime-control.
-  Primary product: Windows CLI ime-control.
+  Repository: ime-border.
+  Primary product: Windows CLI ime-border.
   Product goal: detect Microsoft Pinyin English mode and optionally project that state onto komorebi borders.
   OpenSpec is the canonical governance and planning system.
   Use openspec/project.md for repository-wide context and openspec/specs/ for durable requirements.
