@@ -2,6 +2,14 @@
 
 `ime-border` is a Windows-first command-line tool that detects whether the active Microsoft Pinyin IME is currently in English mode and can project that state onto komorebi border colors.
 
+## Download
+
+GitHub Releases is the primary download path. Each tagged release publishes:
+
+- `ime-border-vX.Y.Z-windows-x86_64.exe`
+- `ime-border-vX.Y.Z-windows-x86_64.zip`
+- `SHA256SUMS.txt`
+
 ## Commands
 
 ```powershell

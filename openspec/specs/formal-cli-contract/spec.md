@@ -45,9 +45,14 @@ The formal CLI SHALL use `ime-border` as its single primary entry. The authorita
 
 ### Requirement: Portable build flow remains repository-owned
 
-The repository SHALL define a portable executable build flow for `ime-border`.
+The repository SHALL define a portable executable build flow for `ime-border`, and the GitHub release process SHALL publish versioned Windows artifacts with repository-owned checksums.
 
 #### Scenario: Maintainer builds a portable executable
 
 - **WHEN** a maintainer follows the documented build command
 - **THEN** the repository produces a Windows executable artifact for `ime-border`
+
+#### Scenario: Maintainer publishes a tagged release
+
+- **WHEN** a maintainer pushes a tag matching `v*`
+- **THEN** the GitHub Release contains a versioned Windows exe, a versioned Windows zip archive, and `SHA256SUMS.txt`

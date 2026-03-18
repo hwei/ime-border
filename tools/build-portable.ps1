@@ -15,5 +15,24 @@ New-Item -ItemType Directory -Path $distDir -Force | Out-Null
 
 $sourceExe = Join-Path $PSScriptRoot "..\target\release\ime-border.exe"
 $targetExe = Join-Path $distDir "ime-border.exe"
-Copy-Item $sourceExe $targetExe -Force
+
+$copied = $false
+for ($attempt = 1; $attempt -le 5; $attempt++) {
+    try {
+        Copy-Item $sourceExe $targetExe -Force
+        $copied = $true
+        break
+    }
+    catch {
+        if ($attempt -eq 5) {
+            throw
+        }
+        Start-Sleep -Milliseconds 400
+    }
+}
+
+if (-not $copied) {
+    throw "Failed to copy $sourceExe to $targetExe"
+}
+
 Write-Output "Built $targetExe"

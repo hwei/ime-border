@@ -17,7 +17,32 @@ jobs:
       - name: Build portable executable
         shell: pwsh
         run: .\tools\build-portable.ps1
+      - name: Prepare release artifacts
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $artifactBase = "ime-border-$tag-windows-x86_64"
+          $releaseDir = Join-Path $PWD "release-artifacts"
+          New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
+
+          $sourceExe = Join-Path $PWD "dist\ime-border.exe"
+          $versionedExe = Join-Path $releaseDir "$artifactBase.exe"
+          Copy-Item $sourceExe $versionedExe -Force
+
+          $versionedZip = Join-Path $releaseDir "$artifactBase.zip"
+          Compress-Archive -Path $versionedExe -DestinationPath $versionedZip -Force
+
+          $hashLines = @()
+          foreach ($path in @($versionedExe, $versionedZip)) {
+            $hash = (Get-FileHash -Algorithm SHA256 $path).Hash.ToLowerInvariant()
+            $name = Split-Path $path -Leaf
+            $hashLines += "$hash  $name"
+          }
+          $hashLines | Set-Content -Path (Join-Path $releaseDir "SHA256SUMS.txt") -NoNewline:$false
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/ime-border.exe
+          files: |
+            release-artifacts/*.exe
+            release-artifacts/*.zip
+            release-artifacts/SHA256SUMS.txt
