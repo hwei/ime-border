@@ -1,0 +1,26 @@
+schema: spec-driven
+profile: core
+delivery: both
+
+context: |
+  Repository: ime-control.
+  Primary product: Windows CLI ime-control.
+  Product goal: detect Microsoft Pinyin English mode and optionally project that state onto komorebi borders.
+  OpenSpec is the canonical governance and planning system.
+  Use openspec/project.md for repository-wide context and openspec/specs/ for durable requirements.
+  Temporary execution context is ephemeral; distill stable conclusions into specs, tests, or source.
+  The shipped product should support green-software style distribution as a portable exe.
+
+rules:
+  proposal:
+    - Keep proposals concise and capability-oriented.
+    - Separate durable CLI behavior from delivery and repository workflow concerns.
+  design:
+    - Explain Windows-specific assumptions and any reliance on IME or komorebi behavior.
+    - Call out portability limits explicitly when behavior depends on foreground-thread state.
+  specs:
+    - Write normative SHALL or MUST requirements with at least one scenario each.
+    - Keep repository workflow requirements separate from product CLI requirements.
+  tasks:
+    - Break tasks into one-session-sized steps that end in directly verifiable repository state.
+    - Include validation and packaging work when the change affects distribution.
