@@ -8,7 +8,7 @@ Define the repository's canonical OpenSpec-first workflow, including change gati
 
 ### Requirement: OpenSpec is the canonical repository workflow
 
-The repository SHALL use OpenSpec as the canonical system for project context, durable governance rules, active change planning, and repository-owned release helper tooling.
+The repository SHALL use OpenSpec as the canonical system for project context, durable governance rules, active change planning, repository-owned release helper tooling, and public-repository readiness materials.
 
 #### Scenario: Fresh contributor looks for process entry
 
@@ -20,6 +20,11 @@ The repository SHALL use OpenSpec as the canonical system for project context, d
 
 - **WHEN** a maintainer needs to bump the repository version and create a matching release tag
 - **THEN** the repository provides a maintained helper script for the local release preparation steps
+
+#### Scenario: Maintainer prepares the repository for GitHub publication
+
+- **WHEN** the repository is being prepared for public GitHub publication
+- **THEN** the repository includes a license and public-facing README materials owned in-repo
 
 ### Requirement: Substantial work requires OpenSpec change context
 
