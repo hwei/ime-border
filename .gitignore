@@ -12,6 +12,7 @@ dist/
 *.pyd
 *.egg-info/
 .coverage
+.claude/
 
 
 # Added by cargo

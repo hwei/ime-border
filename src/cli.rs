@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use anyhow::{Context, Result};
 use chrono::Local;
@@ -161,6 +161,16 @@ pub fn run_border_watch(
     let window_kinds = parse_window_kinds(window_kinds)?;
     let mut detector = StateChangeDetector::default();
 
+    // 优化：状态缓存 - 记录上次设置的颜色
+    let mut last_colour: Option<RgbColor> = None;
+    // 优化：调用节流 - 记录上次调用时间
+    let mut last_apply_time = Instant::now();
+    // 优化：防抖 - 等待状态稳定
+    let debounce_duration = Duration::from_millis(150);
+    let throttle_duration = Duration::from_millis(300);
+    let mut pending_colour: Option<RgbColor> = None;
+    let mut pending_since: Option<Instant> = None;
+
     loop {
         let state = get_foreground_ime_state();
         if let Some(event) = detector.observe(state) {
@@ -169,11 +179,36 @@ pub fn run_border_watch(
                 "false" => non_english,
                 _ => unknown,
             };
-            apply_border_colours(&komorebic_path, colour, &window_kinds)?;
+
+            // 优化：防抖 - 记录待处理的颜色变化
+            pending_colour = Some(colour);
+            pending_since = Some(Instant::now());
+
             if verbose {
                 println!("{}", render_state(&event.state, true));
             }
         }
+
+        // 优化：防抖 - 检查是否有待处理的颜色变化且已稳定
+        if let (Some(colour), Some(since)) = (pending_colour, pending_since) {
+            if since.elapsed() >= debounce_duration {
+                // 优化：状态缓存 - 只有颜色不同时才更新
+                let colour_changed = last_colour != Some(colour);
+                // 优化：调用节流 - 确保两次调用之间有足够间隔
+                let throttle_passed = last_apply_time.elapsed() >= throttle_duration;
+
+                if colour_changed && throttle_passed {
+                    apply_border_colours(&komorebic_path, colour, &window_kinds)?;
+                    last_colour = Some(colour);
+                    last_apply_time = Instant::now();
+                }
+
+                // 清除待处理状态
+                pending_colour = None;
+                pending_since = None;
+            }
+        }
+
         sleep_interval(interval);
     }
 }
